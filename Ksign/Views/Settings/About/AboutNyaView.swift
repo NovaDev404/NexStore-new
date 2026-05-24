@@ -85,8 +85,8 @@ struct AboutNyaView: View {
 	
 	private func _showPatchNotes() {
 		UIAlertController.showAlertWithOk(
-            title: .localized("From Nyasami, Version \(Bundle.main.version)"),
-            message: .localized("This version introduces:\n\n- Notification when finished downloading in background (you can enable in App Features settings) \n- Button that filled bundle ID with certificate's App ID\n- remove support of ksign certificate file\n- prefix / suffix for app name in signing config- refactored the IPA Downloader to just Downloads new features"),
+			title: .localized("From Nyasami, Version \(Bundle.main.version)"),
+			message: .localized("This version introduces:\n\n- Optimization for iOS 26\n- Bulk installation support for multiple apps\n- idevice installation method\n- Custom injection path & support for injecting tweaks into App Extensions\n- Support for .bundle files as tweaks (copied directly into the app bundle)\n- rsd support\n- Fix empty display name handling in Info.plist\n- Fix URL scheme issues for Ksign\n- Fix codesigning errors on specific apps with unusual bundle structures\n- Localization updates for German, Russian, Arabic, and Vietnamese"),
 			isCancel: true,
 			thankYou: true
 		)
