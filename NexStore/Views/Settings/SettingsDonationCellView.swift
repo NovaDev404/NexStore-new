@@ -38,8 +38,10 @@ struct SettingsDonationCellView: View {
 	@ViewBuilder
 	private func _title() -> some View {
 		VStack(alignment: .center, spacing: 12) {
-            Image(uiImage: (UIImage(named: "Kana_love"))!).resizable().frame(width: 60, height: 60)
-			
+            Image(systemName: "heart.fill")
+                .font(.system(size: 60))
+                .foregroundStyle(.tint)
+
 			Text(.localized("Donations"))
 				.font(.title)
 				.bold()
