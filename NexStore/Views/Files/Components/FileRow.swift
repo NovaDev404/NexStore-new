@@ -77,7 +77,7 @@ struct FileRow: View {
                 } else if file.isP12Certificate {
                     Image(systemName: "key")
                         .foregroundColor(.accentColor)
-                } else if file.isKsignFile {
+                } else if file.isNexStoreFile {
                     Image(systemName: "questionmark")
                         .foregroundColor(.accentColor)
                 } else {
@@ -204,9 +204,9 @@ struct FileRow: View {
             }
         }
         
-        if file.isKsignFile {
+        if file.isNexStoreFile {
             Button {
-                UIAlertController.showAlertWithOk(title: "?", message: .localized("Ksign certificate file (.ksign) is now unsupported from v1.5.1, please refer to use .p12 and .mobileprovision instead."))
+                UIAlertController.showAlertWithOk(title: "?", message: .localized("NexStore certificate file (.nexstore) is now unsupported from v1.5.1, please refer to use .p12 and .mobileprovision instead."))
             } label: {
                 Label(String(localized: "Import Certificate"), systemImage: "questionmark")
             }

@@ -109,7 +109,7 @@ final class CertificateService {
 // MARK: - Extensions
 
 extension UTType {
-    static var ksign: UTType {
-        UTType(exportedAs: "nya.asami.ksign.cert")
+    static var nexstore: UTType {
+        UTType(exportedAs: "novadev.nexstore.cert")
     }
 } 

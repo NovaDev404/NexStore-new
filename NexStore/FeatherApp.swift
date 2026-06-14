@@ -45,7 +45,7 @@ struct FeatherApp: App {
 	}
 	
 	private func _handleURL(_ url: URL) {
-		if url.scheme == "ksign" {
+		if url.scheme == "nexstore" {
 			if let fullPath = url.validatedScheme(after: "/source/") {
 				FR.handleSource(fullPath) { }
 			}
@@ -68,8 +68,8 @@ struct FeatherApp: App {
 				return
 			}
 			
-            if url.pathExtension == "ksign" {
-                UIAlertController.showAlertWithOk(title: .localized("Error"), message: .localized("Ksign certificate file (.ksign) is now unsupported from v1.5.1, please refer to use .p12 and .mobileprovision instead."))
+            if url.pathExtension == "nexstore" {
+                UIAlertController.showAlertWithOk(title: .localized("Error"), message: .localized("NexStore certificate file (.nexstore) is now unsupported from v1.5.1, please refer to use .p12 and .mobileprovision instead."))
             }
 		}
 	}

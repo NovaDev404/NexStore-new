@@ -10,7 +10,7 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
-			<string>ksign_extension</string>
+			<string>nexstore_extension</string>
 			<key>CFBundleTypeName</key>
 			<string>iOS Package Archive</string>
 			<key>CFBundleTypeRole</key>
@@ -24,7 +24,7 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
-			<string>ksign_extension</string>
+			<string>nexstore_extension</string>
 			<key>CFBundleTypeName</key>
 			<string>AirDrop friendly iOS app</string>
 			<key>CFBundleTypeRole</key>
@@ -38,16 +38,16 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
-			<string>ksign_extension</string>
+			<string>nexstore_extension</string>
 			<key>CFBundleTypeName</key>
-			<string>Ksign Certificate Package</string>
+			<string>NexStore Certificate Package</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>nya.asami.ksign.cert</string>
+				<string>novadev.nexstore.cert</string>
 			</array>
 		</dict>
 	</array>
@@ -112,12 +112,12 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLIconFile</key>
-			<string>ksign_extension</string>
+			<string>nexstore_extension</string>
 			<key>CFBundleURLName</key>
-			<string>nya.asami.ksign</string>
+			<string>novadev.nexstore</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>ksign</string>
+				<string>nexstore</string>
 			</array>
 		</dict>
 	</array>
@@ -141,7 +141,7 @@
 			<key>UTTypeDescription</key>
 			<string>iOS Package Archive</string>
 			<key>UTTypeIconFile</key>
-			<string>ksign_extension</string>
+			<string>nexstore_extension</string>
 			<key>UTTypeIcons</key>
 			<dict>
 				<key>UTTypeIconText</key>
@@ -171,7 +171,7 @@
 			<key>UTTypeDescription</key>
 			<string>AirDrop friendly iOS app</string>
 			<key>UTTypeIconFile</key>
-			<string>ksign_extension</string>
+			<string>nexstore_extension</string>
 			<key>UTTypeIcons</key>
 			<dict>
 				<key>UTTypeIconBadgeName</key>
@@ -200,21 +200,21 @@
 				<string>public.content</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Ksign Certificate Package</string>
+			<string>NexStore Certificate Package</string>
 			<key>UTTypeIconFile</key>
-			<string>ksign_extension</string>
+			<string>nexstore_extension</string>
 			<key>UTTypeIcons</key>
 			<dict>
 				<key>UTTypeIconText</key>
-				<string>KSIGN</string>
+				<string>NEXSTORE</string>
 			</dict>
 			<key>UTTypeIdentifier</key>
-			<string>nya.asami.ksign.cert</string>
+			<string>novadev.nexstore.cert</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-					<string>ksign</string>
+					<string>nexstore</string>
 				</array>
 				<key>public.mime-type</key>
 				<array>

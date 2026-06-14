@@ -94,7 +94,7 @@ extension Storage {
 
 	func addBuiltInSources() {
 		let builtInSourceURLs = [
-            "https://raw.githubusercontent.com/Nyasami/Ksign/refs/heads/main/repo.json",
+            "https://raw.githubusercontent.com/Nyasami/NexStore/refs/heads/main/repo.json",
             "https://community-apps.sidestore.io/sidecommunity.json",
             "https://xitrix.github.io/iTorrent/AltStore.json",
 			"https://repository.apptesters.org",

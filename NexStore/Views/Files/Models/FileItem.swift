@@ -37,9 +37,9 @@ struct FileItem: Identifiable, Hashable {
         return ext == "p12"
     }
     
-    var isKsignFile: Bool {
+    var isNexStoreFile: Bool {
         guard let ext = fileExtension?.lowercased() else { return false }
-        return ext == "ksign"
+        return ext == "nexstore"
     }
     
     var isZipArchive: Bool {

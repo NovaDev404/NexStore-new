@@ -29,7 +29,7 @@ struct SettingsView: View {
     
     
 	private let _donationsUrl = "https://github.com/sponsors/nyasami"
-	private let _githubUrl = "https://github.com/nyasami/ksign"
+	private let _githubUrl = "https://github.com/nyasami/NexStore"
     private let _discordUrl = "https://discord.gg/sfbZfQzVdQ"
 	// MARK: Body
     var body: some View {
@@ -130,7 +130,7 @@ extension SettingsView {
 				UIApplication.open(FileManager.default.archives.toSharedDocumentsURL()!)
 			}
 		} footer: {
-			Text(.localized("All of Ksign files except certificates are contained in the documents directory, here are some quick links to these."))
+			Text(.localized("All of NexStore files except certificates are contained in the documents directory, here are some quick links to these."))
 		}
 	}
 }
