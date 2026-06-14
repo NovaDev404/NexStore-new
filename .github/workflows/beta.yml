@@ -9,6 +9,9 @@ jobs:
   build:
     name: Build Beta
     runs-on: macos-26
+    permissions:
+      contents: write
+      releases: write
 
     steps:
       - name: Checkout Code
