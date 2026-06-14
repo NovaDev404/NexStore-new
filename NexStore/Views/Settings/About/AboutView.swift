@@ -12,9 +12,9 @@ import NimbleJSON
 // MARK: - View
 struct AboutView: View {
 	@State private var _credits: [CreditsModel] = [
-		.init(name: "C", desc: "Developer", github: "claration"),
-		.init(name: "Asami", desc: "Developer", github: "Nyasami"),
 		.init(name: "NovaDev404", desc: "Developer", github: "NovaDev404"),
+		.init(name: "Claration", desc: "Developer", github: "claration"),
+		.init(name: "Nyasami", desc: "Developer", github: "Nyasami"),
 		.init(name: "Lakhan Lothiyi", desc: "AltStore Repositories", github: "llsc12"),
 	]
 	// MARK: Body

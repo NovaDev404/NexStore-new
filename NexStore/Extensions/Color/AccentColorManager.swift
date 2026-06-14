@@ -19,7 +19,7 @@ class AccentColorManager: ObservableObject {
     }
     
     private let _accentColors: [(color: Color, uiColor: UIColor)] = [
-        (Color(red: 0x53/255, green: 0x94/255, blue: 0xF7/255), UIColor(red: 0x53/255, green: 0x94/255, blue: 0xF7/255, alpha: 1.0)), // Default
+        (Color(red: 0x26/255, green: 0x4F/255, blue: 0x95/255), UIColor(red: 0x26/255, green: 0x4F/255, blue: 0x95/255, alpha: 1.0)), // Default
         (Color(red: 0xFF/255, green: 0x8B/255, blue: 0x92/255), UIColor(red: 0xFF/255, green: 0x8B/255, blue: 0x92/255, alpha: 1.0)), //rgb(255, 139, 146)
         (.red, .systemRed),
         (.orange, .systemOrange),

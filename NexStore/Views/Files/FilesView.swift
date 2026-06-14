@@ -21,7 +21,9 @@ struct FilesView: View {
     
     @StateObject private var viewModel: FilesViewModel
     @StateObject private var downloadManager = DownloadManager.shared
+    @StateObject private var ipaDownloadManager = IPADownloadManager()
     @State private var searchText = ""
+    @State private var webViewURL: URL?
 
     @AppStorage("NexStore.useLastExportLocation") private var _useLastExportLocation: Bool = false
 
@@ -95,6 +97,7 @@ struct FilesView: View {
                 }
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
+                        downloadButton
                         addButton
                         editButton
                     }
@@ -167,6 +170,9 @@ struct FilesView: View {
         .fullScreenCover(item: $quickLookFileURL) { fileURL in
             QuickLookPreview(fileURL: fileURL)
                 .compatNavigationTransition(id: fileURL.absoluteString, ns: _namespace)
+        }
+        .fullScreenCover(item: $webViewURL) { url in
+            webViewSheet(url: url)
         }
     }
     
@@ -350,6 +356,14 @@ struct FilesView: View {
         .disabled(viewModel.selectedItems.isEmpty)
     }
     
+    private var downloadButton: some View {
+        Button {
+            _addDownload()
+        } label: {
+            Image(systemName: "square.and.arrow.down")
+        }
+    }
+    
     // MARK: - Actions
     
     private func navigateToDirectory(_ url: URL) {
@@ -465,5 +479,59 @@ struct FilesView: View {
                 }
             }
         }
+    }
+    
+    // MARK: - Download Functionality
+    
+    private func _addDownload() {
+        UIAlertController.showAlertWithTextBox(
+            title: .localized("Enter URL"),
+            message: .localized("""
+Enter the URL of the website containing the IPA file (Direct install/ITMS Services) or URL to the IPA file, supported: 
+- https://example.com
+- itms-services://?url=https://example.com
+- https://example.com/app.ipa
+"""),
+            textFieldPlaceholder: .localized("https://example.com"),
+            submit: .localized("OK"),
+            cancel: .localized("Cancel"),
+            onSubmit: { url in
+                handleURLInput(url: url)
+            }
+        )
+    }
+    
+    private func handleURLInput(url: String) {
+        guard !url.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        
+        var finalUrl = url.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !finalUrl.lowercased().hasPrefix("http://") && !finalUrl.lowercased().hasPrefix("https://") {
+            finalUrl = "https://" + finalUrl
+        }
+        
+        guard let validUrl = URL(string: finalUrl) else {
+            UIAlertController.showAlertWithOk(title: .localized("Error"), message: .localized("Invalid URL format"))
+            return
+        }
+        
+        if ipaDownloadManager.isIPAFile(validUrl) {
+            ipaDownloadManager.checkFileTypeAndDownload(url: validUrl) { result in
+                switch result {
+                case .success:
+                    UIAlertController.showAlertWithOk(title: .localized("Success"), message: .localized("The IPA file is being downloaded!\nYou can close this window or download more!"))
+                case .failure(let error):
+                    UIAlertController.showAlertWithOk(title: .localized("Error"), message: error.localizedDescription)
+                }
+            }
+        } else {
+            webViewURL = validUrl
+        }
+    }
+    
+    func webViewSheet(url: URL) -> some View {
+        WebViewSheet(
+            downloadManager: ipaDownloadManager,
+            url: url,
+        )
     }
 }
