@@ -715,28 +715,6 @@
         }
       }
     },
-    "Add Download" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إضافة تنزيل"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Download Hinzufügen"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Thêm tải về"
-          }
-        }
-      }
-    },
     "Add Source" : {
       "localizations" : {
         "ar" : {
@@ -2952,66 +2930,6 @@
         }
       }
     },
-    "Donations" : {
-      "comment" : "Title for the big donation card",
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "التبرعات"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Podpoření"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spenden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Donations"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Donaciones"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dons"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пожертвования"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bağışlar"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ủng hộ"
-          }
-        }
-      }
-    },
     "Done" : {
       "localizations" : {
         "ar" : {
@@ -3165,35 +3083,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Đang tải xuống"
-          }
-        }
-      }
-    },
-    "Downloads" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "التنزيلات"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Downloads"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Загрузки"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tải về"
           }
         }
       }
@@ -5211,29 +5100,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Xem thông tin"
-          }
-        }
-      }
-    },
-    "Get started by downloading your first IPA file." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ابدأ بتنزيل أول ملف IPA."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Starte, indem du deine erste IPA-Datei herunterlädst."
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bắt đầu bằng cách tải IPA đầu tiên của bạn."
           }
         }
       }
@@ -7427,29 +7293,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Không có chứng chỉ"
-          }
-        }
-      }
-    },
-    "No downloaded IPAs" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لا توجد ملفات IPA تم تنزيلها"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Heruntergeladene IPAs"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Không có IPA nào"
           }
         }
       }
@@ -10744,124 +10587,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hiển thị bảng khi xuất"
-          }
-        }
-      }
-    },
-    "Show Your Support" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أظهر دعمك"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ukažte svojí podporu!"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeige deine Unterstützung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Your Support"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Muestra tu apoyo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Montrez votre soutien"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Покажите свою поддержку"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desteğinizi Gösterin"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bày tỏ sự ủng hộ của bạn"
-          }
-        }
-      }
-    },
-    "Show your support by donating! If you're unable to donate, spreading the word works too!" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أظهر دعمك بالتبرع! وإذا لم تستطع التبرع، فيكفي أيضًا أن تنشر التطبيق بين الناس."
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ukažte svojí podporu díky podpoření! Pokud nemůžete podpořit, alespoň se o aplikaci podělte s ostatními!"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeige deine Unterstützung, indem du Spendest! Wenn du nicht spenden kannst, das verteilen des Wortes funktioniert ebenfalls!"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show your support by donating! If you're unable to donate, spreading the word works too!"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¡Muestre su apoyo donando!Si no puedes donar, ¡la palabra también funciona!"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Montrez votre soutien en faisant un don!Si vous ne parvenez pas à faire un don, passer le mot fonctionne aussi!"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Покажите свою поддержку, пожертвовав!Если вы не можете пожертвовать, распространение слова тоже работает!"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bağış yaparak desteğinizi gösterin! Eğer bağış yapamıyorsanız Feather’ı dilden dile yaymak da işe yarar!"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bày tỏ sự ủng hộ của bạn bằng cách quyên góp! Nếu bạn không thể quyên góp, việc chia sẻ cho người khác biết cũng có tác dụng!"
           }
         }
       }

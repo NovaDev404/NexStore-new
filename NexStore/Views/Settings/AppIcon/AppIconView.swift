@@ -29,6 +29,13 @@ struct AppIconView: View {
             iconName: "AppIcon",
             alternateIconName: nil
         ),
+        AppIconOption(
+            id: "wave",
+            title: "Wave",
+            subtitle: "Ocean Blue",
+            iconName: "AppIcon-Wave",
+            alternateIconName: "AppIcon-Wave"
+        ),
     ]
     
     // MARK: Body

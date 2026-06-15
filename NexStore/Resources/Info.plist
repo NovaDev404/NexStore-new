@@ -55,6 +55,15 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
+			<key>AppIcon-Wave</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-Wave</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
 		</dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>

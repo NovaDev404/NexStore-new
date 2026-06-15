@@ -16,33 +16,39 @@ struct ExtendedTabbarView: View {
 	@StateObject var viewModel = SourcesViewModel.shared
 	
 	@State private var _isAddingPresenting = false
+	@State private var selectedTab: TabEnum = .appstore
 	
 	@FetchRequest(
 		entity: AltSource.entity(),
 		sortDescriptors: [NSSortDescriptor(keyPath: \AltSource.name, ascending: true)],
 		animation: .snappy
-	) private var _sources: FetchedResults<AltSource>
+	) private var _sources: FetchedResults<AltSource)
 		
 	var body: some View {
-		TabView {
-			ForEach(TabEnum.defaultTabs, id: \.hashValue) { tab in
-				Tab(tab.title, systemImage: tab.icon) {
+		ZStack(alignment: .bottom) {
+			// Main content
+			TabView(selection: $selectedTab) {
+				ForEach(TabEnum.defaultTabs, id: \.hashValue) { tab in
 					TabEnum.view(for: tab)
+						.tag(tab)
 				}
 			}
+			.tabViewStyle(.page(indexDisplayMode: .never))
 			
-			ForEach(TabEnum.customizableTabs, id: \.hashValue) { tab in
-				Tab(tab.title, systemImage: tab.icon) {
-					TabEnum.view(for: tab)
-				}
-				.customizationID("tab.\(tab.rawValue)")
-				.defaultVisibility(.hidden, for: .tabBar)
-				.customizationBehavior(.reorderable, for: .tabBar, .sidebar)
-				.hidden(horizontalSizeClass == .compact)
-			}
+			// Liquid glass bottom bar
+			LiquidGlassTabBar(selectedTab: $selectedTab, tabs: TabEnum.defaultTabs)
+				.padding(.horizontal, 20)
+				.padding(.bottom, safeAreaBottom == 0 ? 20 : safeAreaBottom)
 		}
-		.tabViewStyle(.sidebarAdaptable)
 		.tabViewCustomization($customization)
+	}
+	
+	private var safeAreaBottom: CGFloat {
+		if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+		   let window = windowScene.windows.first {
+			return window.safeAreaInsets.bottom
+		}
+		return 0
 	}
 	
 	@ViewBuilder
@@ -71,3 +77,89 @@ struct ExtendedTabbarView: View {
 	}
 }
 
+// MARK: - Liquid Glass Tab Bar
+struct LiquidGlassTabBar: View {
+	@Binding var selectedTab: TabEnum
+	let tabs: [TabEnum]
+	@State private var tabPositions: [CGFloat] = []
+	
+	var body: some View {
+		HStack(spacing: 0) {
+			ForEach(Array(tabs.enumerated()), id: \.element) { index, tab in
+				Button {
+					withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+						selectedTab = tab
+					}
+				} label: {
+					VStack(spacing: 4) {
+						ZStack {
+							// Icon
+							Image(systemName: tab.icon)
+								.font(.system(size: 22, weight: selectedTab == tab ? .semibold : .regular))
+								.foregroundStyle(selectedTab == tab ? Color.accentColor : .secondary)
+								.scaleEffect(selectedTab == tab ? 1.1 : 1.0)
+								.animation(.spring(response: 0.3, dampingFraction: 0.6), value: selectedTab)
+						}
+						.frame(height: 32)
+						
+						// Label
+						Text(tab.title)
+							.font(.system(size: 10, weight: selectedTab == tab ? .semibold : .regular))
+							.foregroundStyle(selectedTab == tab ? Color.accentColor : .secondary)
+							.lineLimit(1)
+							.minimumScaleFactor(0.8)
+					}
+					.frame(maxWidth: .infinity)
+					.contentShape(Rectangle())
+				}
+				.buttonStyle(PlainButtonStyle())
+				.background(
+					GeometryReader { geometry in
+						Color.clear.preference(key: TabPositionKey.self, value: [index: geometry.frame(in: .global).midX])
+					}
+				)
+			}
+		}
+		.padding(.horizontal, 8)
+		.padding(.vertical, 12)
+		.background(
+			RoundedRectangle(cornerRadius: 24)
+				.fill(.clear)
+				.modifier { content in
+					if #available(iOS 26, *) {
+						content.glassEffect()
+					} else {
+						content.background(.ultraThinMaterial)
+					}
+				}
+		)
+		.clipShape(RoundedRectangle(cornerRadius: 24))
+		.shadow(color: .black.opacity(0.15), radius: 20, x: 0, y: 10)
+		.shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
+		.onPreferenceChange(TabPositionKey.self) { positions in
+			self.tabPositions = positions.sorted { $0.key < $1.key }.map { $0.value }
+		}
+		.overlay(
+			// Animated indicator
+			GeometryReader { geometry in
+				if let selectedIndex = tabs.firstIndex(where: { $0 == selectedTab }),
+				   selectedIndex < tabPositions.count {
+					Capsule()
+						.fill(Color.accentColor.opacity(0.2))
+						.frame(width: 40, height: 4)
+						.position(x: tabPositions[selectedIndex], y: geometry.size.height - 2)
+						.animation(.spring(response: 0.4, dampingFraction: 0.7), value: selectedTab)
+				}
+			}
+		)
+	}
+}
+
+// MARK: - Tab Position Key
+struct TabPositionKey: PreferenceKey {
+	static var defaultValue: [Int: CGFloat] = [:]
+	
+	static func reduce(value: inout [Int: CGFloat], nextValue: () -> [Int: CGFloat]) {
+		value.merge(nextValue(), uniquingKeysWith: { $1 })
+	}
+}

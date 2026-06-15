@@ -26,10 +26,12 @@ struct AppearanceView: View {
 	]
 	
 	@AppStorage("NexStore.accentColor") private var _selectedAccentColor: Int = 0
+	@AppStorage("NexStore.customAccentColor") private var _customAccentColor: String = "#3482c9"
 	@StateObject private var accentColorManager = AccentColorManager.shared
+	@State private var _showColorPicker = false
     
 	private let _accentColors: [(name: String, color: Color)] = [
-		(.localized("Default"), Color(red: 0x53/255, green: 0x94/255, blue: 0xF7/255)),
+		(.localized("Default"), Color(red: 0x34/255, green: 0x82/255, blue: 0xC9/255)),
 		(.localized("Cherry"), Color(red: 0xFF/255, green: 0x8B/255, blue: 0x92/255)),
 		(.localized("Red"), .red),
 		(.localized("Orange"), .orange),
@@ -41,7 +43,8 @@ struct AppearanceView: View {
 		(.localized("Indigo"), .indigo),
 		(.localized("Mint"), .mint),
 		(.localized("Cyan"), .cyan),
-		(.localized("Teal"), .teal)
+		(.localized("Teal"), .teal),
+		(.localized("Custom"), Color.clear)
 	]
 	
 	private var currentAccentColor: Color {
@@ -76,9 +79,22 @@ struct AppearanceView: View {
 				Picker(.localized("Accent Color"), selection: $_selectedAccentColor) {
 					ForEach(_accentColors.indices, id: \.description) { index in
 						HStack {
-							Circle()
-								.fill(_accentColors[index].color)
-								.frame(width: 20, height: 20)
+							if index == _accentColors.count - 1 {
+								// Rainbow gradient for custom
+								Circle()
+									.fill(
+										LinearGradient(
+											colors: [.red, .orange, .yellow, .green, .blue, .purple],
+											startPoint: .topLeading,
+											endPoint: .bottomTrailing
+										)
+									)
+									.frame(width: 20, height: 20)
+							} else {
+								Circle()
+									.fill(_accentColors[index].color)
+									.frame(width: 20, height: 20)
+							}
 							Text(_accentColors[index].name)
 						}
 						.tag(index)
@@ -86,6 +102,11 @@ struct AppearanceView: View {
 				}
 				.pickerStyle(.inline)
 				.labelsHidden()
+				.onChange(of: _selectedAccentColor) { newValue in
+					if newValue == _accentColors.count - 1 {
+						_showColorPicker = true
+					}
+				}
 			}
 		}
         .onChange(of: _userIntefacerStyle) { value in
@@ -95,6 +116,15 @@ struct AppearanceView: View {
         }
 		.onChange(of: _selectedAccentColor) { _ in
 			accentColorManager.updateGlobalTintColor()
+		}
+		.sheet(isPresented: $_showColorPicker) {
+			ColorPickerView(
+				selectedColor: $_customAccentColor,
+				onColorSelected: { color in
+					_customAccentColor = color
+					accentColorManager.updateGlobalTintColor()
+				}
+			)
 		}
     }
 	

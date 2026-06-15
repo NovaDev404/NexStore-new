@@ -18,8 +18,10 @@ class AccentColorManager: ObservableObject {
         }
     }
     
+    @AppStorage("NexStore.customAccentColor") private var _customAccentColor: String = "#3482c9"
+    
     private let _accentColors: [(color: Color, uiColor: UIColor)] = [
-        (Color(red: 0x26/255, green: 0x4F/255, blue: 0x95/255), UIColor(red: 0x26/255, green: 0x4F/255, blue: 0x95/255, alpha: 1.0)), // Default
+        (Color(red: 0x34/255, green: 0x82/255, blue: 0xC9/255), UIColor(red: 0x34/255, green: 0x82/255, blue: 0xC9/255, alpha: 1.0)), // Default
         (Color(red: 0xFF/255, green: 0x8B/255, blue: 0x92/255), UIColor(red: 0xFF/255, green: 0x8B/255, blue: 0x92/255, alpha: 1.0)), //rgb(255, 139, 146)
         (.red, .systemRed),
         (.orange, .systemOrange),
@@ -35,6 +37,10 @@ class AccentColorManager: ObservableObject {
     ]
     
     var currentAccentColor: Color {
+        if _selectedAccentColor == _accentColors.count {
+            // Custom color
+            return Color(hex: _customAccentColor)
+        }
         guard _selectedAccentColor < _accentColors.count else {
             return _accentColors[0].color
         }
@@ -42,6 +48,10 @@ class AccentColorManager: ObservableObject {
     }
     
     var currentUIColor: UIColor {
+        if _selectedAccentColor == _accentColors.count {
+            // Custom color
+            return UIColor(Color(hex: _customAccentColor))
+        }
         guard _selectedAccentColor < _accentColors.count else {
             return _accentColors[0].uiColor
         }
