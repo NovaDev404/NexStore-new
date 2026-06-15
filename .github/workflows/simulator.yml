@@ -26,14 +26,14 @@ jobs:
             -scheme NexStore \
             -configuration Release \
             -sdk iphonesimulator \
-            -derivedDataPath $(TMPDIR)/NexStore \
+            -derivedDataPath ./build \
             -skipPackagePluginValidation \
             CODE_SIGNING_ALLOWED=NO \
             ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES=NO
 
       - name: Create Simulator Zip
         run: |
-          APP_PATH=$(find $(TMPDIR)/NexStore/Build/Products/Release-iphonesimulator -name "*.app" | head -n 1)
+          APP_PATH=$(find ./build/Build/Products/Release-iphonesimulator -name "*.app" | head -n 1)
           echo "Found app at: $APP_PATH"
           
           mkdir -p packages
