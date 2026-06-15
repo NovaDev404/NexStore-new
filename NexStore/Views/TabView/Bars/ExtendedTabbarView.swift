@@ -22,7 +22,7 @@ struct ExtendedTabbarView: View {
 		entity: AltSource.entity(),
 		sortDescriptors: [NSSortDescriptor(keyPath: \AltSource.name, ascending: true)],
 		animation: .snappy
-	) private var _sources: FetchedResults<AltSource)
+	) private var _sources: FetchedResults<AltSource>
 		
 	var body: some View {
 		ZStack(alignment: .bottom) {
