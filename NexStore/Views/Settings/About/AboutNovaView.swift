@@ -63,7 +63,7 @@ struct AboutNovaView: View {
 				.transition(.slide)
 			}
             
-            NBSection {
+            NBSection("") {
                 Text(Bundle.main.bundleIdentifier ?? "")
                     .foregroundStyle(.secondary)
                     .font(.caption)
