@@ -17,14 +17,16 @@ public struct NBListAdaptable<Content>: View where Content: View {
 	}
 	
 	public var body: some View {
-		if horizontalSizeClass == .compact {
-			List {
-				_content
-			}
-			.listStyle(.plain)
-		} else {
-			NBGrid {
-				_content
+		Group {
+			if horizontalSizeClass == .compact {
+				List {
+					_content
+				}
+				.listStyle(.plain)
+			} else {
+				NBGrid {
+					_content
+				}
 			}
 		}
 		.padding(.bottom, 80) // Extra space for bottom bar
