@@ -1,5 +1,5 @@
 
-<img src="https://raw.githubusercontent.com/NovaDev404/NexStore/main/NexStore/Resources/Icons/Main/Icon@3x.png" height="200">
+<img src="https://raw.githubusercontent.com/NovaDev404/NexStore-new/main/NexStore/Resources/Assets.xcassets/AppIcon.appiconset/NexStore-default.png" height="200">
 
 # NexStore v2 
 [![GitHub Release](https://img.shields.io/github/v/release/NovaDev404/NexStore-new?style=for-the-badge&color=3c94fc)](https://github.com/NovaDev404/NexStore-new/releases/latest) 
