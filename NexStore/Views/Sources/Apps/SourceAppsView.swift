@@ -88,15 +88,6 @@ struct SourceAppsView: View {
             }
         }
         .navigationTitle(_navigationTitle)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text(_navigationTitle)
-                    .font(.headline)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 20)
-            }
-        }
-        .navigationBarTitleDisplayMode(.inline)
         .searchable(text: $_searchText, placement: .platform())
         .toolbarTitleMenu {
             if

@@ -73,17 +73,26 @@ extension NBFetchService {
 						if let underlyingError = context.underlyingError as NSError? {
 							
                             if let debugDesc = underlyingError.userInfo["NSDebugDescription"] {
-                                print(debugDesc)
+                                print("JSON Parsing Error for \(url): \(debugDesc)")
+                                if let stringData = String(data: data, encoding: .utf8) {
+                                    print("Received data: \(stringData)")
+                                }
                                 completion(.failure(NBFetchServiceError.parsingError(debugDesc)))
                             } else {
-                                print(decodingError)
+                                print("JSON Parsing Error for \(url): \(decodingError)")
+                                if let stringData = String(data: data, encoding: .utf8) {
+                                    print("Received data: \(stringData)")
+                                }
                                 completion(.failure(NBFetchServiceError.parsingError(decodingError)))
                             }
 						}
 					}
 					
 				} catch {
-                    print(error)
+                    print("JSON Parsing Error for \(url): \(error)")
+                    if let stringData = String(data: data, encoding: .utf8) {
+                        print("Received data: \(stringData)")
+                    }
 					completion(.failure(NBFetchServiceError.parsingError(error)))
 				}
 			}

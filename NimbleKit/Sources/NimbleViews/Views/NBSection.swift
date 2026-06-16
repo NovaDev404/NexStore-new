@@ -83,6 +83,7 @@ where 	Content: View,
                         }
 					}
 				}
+				.padding(.leading, 16)
 				.offset(y: 2)
 			,
 			footer: _footer
