@@ -15,7 +15,7 @@ struct LibraryInfoView: View {
 	
 	// MARK: Body
     var body: some View {
-		NBNavigationView(app.name ?? "", displayMode: .inline) {
+		NBNavigationView(app.name ?? "") {
 			List {
 				Section {} header: {
 					FRAppIconView(app: app)

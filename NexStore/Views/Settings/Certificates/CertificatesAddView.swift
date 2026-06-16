@@ -39,7 +39,7 @@ struct CertificatesAddView: View {
 	
 	// MARK: Body
 	var body: some View {
-		NBNavigationView(.localized("New Certificate"), displayMode: .inline) {
+		NBNavigationView(.localized("New Certificate")) {
 			Form {
 				NBSection(.localized("Files")) {
 					_importButton(.localized("Import Certificate File"), file: _p12URL, hasData: _p12Data) {

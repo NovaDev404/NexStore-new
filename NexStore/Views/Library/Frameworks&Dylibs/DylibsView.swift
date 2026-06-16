@@ -20,7 +20,7 @@ struct DylibsView: View {
     @State private var hiddenDylibCount: Int = 0
     @State private var searchText: String = ""
     var body: some View {
-        NBNavigationView(app.name ?? .localized("Frameworks & Dylibs"), displayMode: .inline) {
+        NBNavigationView(app.name ?? .localized("Frameworks & Dylibs")) {
             VStack {
                 List(dylibFiles.filter { searchText.isEmpty ? true : $0.lastPathComponent.localizedCaseInsensitiveContains(searchText) }, id: \.absoluteString) { fileURL in
                     DylibRowView(

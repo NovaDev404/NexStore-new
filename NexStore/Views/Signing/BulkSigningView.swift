@@ -51,7 +51,7 @@ struct BulkSigningView: View {
 	}
 
 	var body: some View {
-		NBNavigationView(.localized("Bulk Signing"), displayMode: .inline) {
+		NBNavigationView(.localized("Bulk Signing")) {
 			Form {
                 _cert()
 				

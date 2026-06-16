@@ -19,28 +19,37 @@ struct NexStoreApp: App {
     @StateObject var extractManager = ExtractManager.shared
 	@StateObject var logsManager = LogsManager.shared
 	let storage = Storage.shared
+	@AppStorage("hasCompletedWelcome") private var hasCompletedWelcome: Bool = false
+	@AppStorage("showWelcomeSlides") private var showWelcomeSlides: Bool = false
 
 	var body: some Scene {
 		WindowGroup {
-			VStack {
-                ExtractHeaderView(extractManager: extractManager)
-                    .transition(.move(edge: .top).combined(with: .opacity))
-				DownloadHeaderView(downloadManager: downloadManager)
-					.transition(.move(edge: .top).combined(with: .opacity))
-				VariedTabbarView()
-					.environment(\.managedObjectContext, storage.context)
-					.onOpenURL(perform: _handleURL)
-					.transition(.move(edge: .top).combined(with: .opacity))
-			}
-			.ignoresSafeArea()
-			.animation(.smooth, value: downloadManager.manualDownloads.description)
-            .animation(.smooth, value: extractManager.extractItems.description)
-			.onReceive(accentColorManager.objectWillChange) { _ in
-				accentColorManager.updateGlobalTintColor()
-			}
-			.onAppear {
-				accentColorManager.updateGlobalTintColor()
-				if logsManager.isCapturing { logsManager.startCapture() }
+			if !hasCompletedWelcome || showWelcomeSlides {
+				WelcomeView()
+					.onDisappear {
+						showWelcomeSlides = false
+					}
+			} else {
+				VStack {
+	                ExtractHeaderView(extractManager: extractManager)
+	                    .transition(.move(edge: .top).combined(with: .opacity))
+					DownloadHeaderView(downloadManager: downloadManager)
+						.transition(.move(edge: .top).combined(with: .opacity))
+					VariedTabbarView()
+						.environment(\.managedObjectContext, storage.context)
+						.onOpenURL(perform: _handleURL)
+						.transition(.move(edge: .top).combined(with: .opacity))
+				}
+				.ignoresSafeArea()
+				.animation(.smooth, value: downloadManager.manualDownloads.description)
+	            .animation(.smooth, value: extractManager.extractItems.description)
+				.onReceive(accentColorManager.objectWillChange) { _ in
+					accentColorManager.updateGlobalTintColor()
+				}
+				.onAppear {
+					accentColorManager.updateGlobalTintColor()
+					if logsManager.isCapturing { logsManager.startCapture() }
+				}
 			}
 		}
 	}

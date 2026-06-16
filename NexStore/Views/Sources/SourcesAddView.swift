@@ -23,7 +23,7 @@ struct SourcesAddView: View {
 	
 	// MARK: Body
 	var body: some View {
-		NBNavigationView(.localized("Add Source"), displayMode: .inline) {
+		NBNavigationView(.localized("Add Source")) {
 			Form {
 				Section {
 					TextField(.localized("Source Repo URL"), text: $_sourceURL)

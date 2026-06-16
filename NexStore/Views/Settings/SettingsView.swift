@@ -11,6 +11,7 @@ import NimbleViews
 // MARK: - View
 struct SettingsView: View {
     @AppStorage("nexstore.selectedCert") private var _storedSelectedCert: Int = 0
+    @AppStorage("showWelcomeSlides") private var showWelcomeSlides: Bool = false
     @FetchRequest(
         entity: CertificatePair.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \CertificatePair.date, ascending: false)],
@@ -42,6 +43,9 @@ struct SettingsView: View {
                     }
 					NavigationLink(destination: AppearanceView()) {
                         Label(.localized("Appearance"), systemImage: "paintbrush")
+                    }
+                    Toggle(isOn: $showWelcomeSlides) {
+                        Label("Show Welcome Slides", systemImage: "sparkles")
                     }
 				}
                 

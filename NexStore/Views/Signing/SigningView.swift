@@ -63,7 +63,7 @@ struct SigningView: View {
 		
 	// MARK: Body
     var body: some View {
-		NBNavigationView(app.name ?? .localized("Unknown"), displayMode: .inline) {
+		NBNavigationView(app.name ?? .localized("Unknown")) {
 			Form {
 				_customizationOptions(for: app)
 				_cert()

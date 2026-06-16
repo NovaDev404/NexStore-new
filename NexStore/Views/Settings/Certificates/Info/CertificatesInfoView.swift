@@ -17,7 +17,7 @@ struct CertificatesInfoView: View {
 	
 	// MARK: Body
     var body: some View {
-		NBNavigationView(cert.nickname ?? "", displayMode: .inline) {
+		NBNavigationView(cert.nickname ?? "") {
 			Form {
 				Section {} header: {
 					Image("Cert")
