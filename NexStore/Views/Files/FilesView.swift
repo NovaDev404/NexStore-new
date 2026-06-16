@@ -58,16 +58,10 @@ struct FilesView: View {
     }
     
     var body: some View {
-        Group {
-            if isRootView {
-                NavigationStack {
-                    filesBrowserContent
-                }
-                .accentColor(.accentColor)
-            } else {
-                filesBrowserContent
-            }
+        NavigationStack {
+            filesBrowserContent
         }
+        .accentColor(.accentColor)
         .onAppear {
             setupView()
         }

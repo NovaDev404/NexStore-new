@@ -34,11 +34,15 @@ struct ExtendedTabbarView: View {
 				}
 			}
 			.tabViewStyle(.page(indexDisplayMode: .never))
+			.padding(.bottom, 100) // Space for bottom bar
 			
 			// Liquid glass bottom bar
-			LiquidGlassTabBar(selectedTab: $selectedTab, tabs: TabEnum.defaultTabs)
-				.padding(.horizontal, 20)
-				.padding(.bottom, safeAreaBottom == 0 ? 20 : safeAreaBottom)
+			VStack {
+				Spacer()
+				LiquidGlassTabBar(selectedTab: $selectedTab, tabs: TabEnum.defaultTabs)
+					.padding(.horizontal, 20)
+					.padding(.bottom, safeAreaBottom == 0 ? 20 : safeAreaBottom)
+			}
 		}
 		.tabViewCustomization($customization)
 	}
