@@ -11,7 +11,6 @@ import SwiftUI
 struct WelcomeView: View {
     @State private var currentIndex: Int = 0
     @State private var selectedIcon: String? = UIApplication.shared.alternateIconName
-    @Environment(\.dismiss) private var dismiss
     
     // Easy to add new slides - just add to this array
     private let slides: [WelcomeSlide] = [
@@ -233,6 +232,5 @@ extension WelcomeView {
     
     private func _completeWelcome() {
         UserDefaults.standard.set(true, forKey: "hasCompletedWelcome")
-        dismiss()
     }
 }
