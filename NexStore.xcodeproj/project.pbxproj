@@ -94,9 +94,6 @@
 				3305BBAC2DB8944200660D45 /* Vapor in Frameworks */,
 				3346F83B2DC6C6D100C7D508 /* NukeUI in Frameworks */,
 				336D43982DB7454A00206400 /* MobileCoreServices.framework in Frameworks */,
-				C42CC1AD2F4370F40064A4A4 /* StosSign_API in Frameworks */,
-				C42CC1AE2F4370F50064A4A5 /* StosSign_Auth in Frameworks */,
-				C42CC1AF2F4370F60064A4A6 /* StosSign_Certificate in Frameworks */,
 				C451296C2E54F0DC00E94CC7 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
