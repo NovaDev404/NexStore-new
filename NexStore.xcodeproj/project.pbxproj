@@ -21,6 +21,9 @@
 		33CF13392DB5ACFB0021D4C5 /* SWCompression in Frameworks */ = {isa = PBXBuildFile; productRef = 33CF13382DB5ACFB0021D4C5 /* SWCompression */; };
 		C42CC1AD2F4370F20064A4A2 /* IDevice in Frameworks */ = {isa = PBXBuildFile; productRef = C42CC1AC2F4370F20064A4A2 /* IDevice */; };
 		C42CC1AF2F4370F20064A4A2 /* IDeviceSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C42CC1AE2F4370F20064A4A2 /* IDeviceSwift */; };
+		C42CC1AD2F4370F40064A4A4 /* StosSign_API in Frameworks */ = {isa = PBXBuildFile; productRef = C42CC1AD2F4370F40064A4A4 /* StosSign_API */; };
+		C42CC1AE2F4370F50064A4A5 /* StosSign_Auth in Frameworks */ = {isa = PBXBuildFile; productRef = C42CC1AE2F4370F50064A4A5 /* StosSign_Auth */; };
+		C42CC1AF2F4370F60064A4A6 /* StosSign_Certificate in Frameworks */ = {isa = PBXBuildFile; productRef = C42CC1AF2F4370F60064A4A6 /* StosSign_Certificate */; };
 		C451296C2E54F0DC00E94CC7 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = C451296B2E54F0DB00E94CC7 /* ZIPFoundation */; };
 		C4CEAE0C2DDF4735007EF880 /* ArArchiveKit in Frameworks */ = {isa = PBXBuildFile; productRef = C4CEAE0B2DDF4735007EF880 /* ArArchiveKit */; };
 /* End PBXBuildFile section */
@@ -94,6 +97,9 @@
 				3305BBAC2DB8944200660D45 /* Vapor in Frameworks */,
 				3346F83B2DC6C6D100C7D508 /* NukeUI in Frameworks */,
 				336D43982DB7454A00206400 /* MobileCoreServices.framework in Frameworks */,
+				C42CC1AD2F4370F40064A4A4 /* StosSign_API in Frameworks */,
+				C42CC1AE2F4370F50064A4A5 /* StosSign_Auth in Frameworks */,
+				C42CC1AF2F4370F60064A4A6 /* StosSign_Certificate in Frameworks */,
 				C451296C2E54F0DC00E94CC7 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -674,6 +680,21 @@
 		C42CC1AC2F4370F30064A4A3 /* XCLocalSwiftPackageReference "StosSign" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = StosSign;
+		};
+		C42CC1AD2F4370F40064A4A4 /* XCSwiftPackageProductDependency "StosSign_API" */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C42CC1AC2F4370F30064A4A3 /* XCLocalSwiftPackageReference "StosSign" */;
+			productName = StosSign_API;
+		};
+		C42CC1AE2F4370F50064A4A5 /* XCSwiftPackageProductDependency "StosSign_Auth" */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C42CC1AC2F4370F30064A4A3 /* XCLocalSwiftPackageReference "StosSign" */;
+			productName = StosSign_Auth;
+		};
+		C42CC1AF2F4370F60064A4A6 /* XCSwiftPackageProductDependency "StosSign_Certificate" */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C42CC1AC2F4370F30064A4A3 /* XCLocalSwiftPackageReference "StosSign" */;
+			productName = StosSign_Certificate;
 		};
 /* End XCLocalSwiftPackageReference section */
 
