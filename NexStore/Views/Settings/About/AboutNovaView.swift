@@ -52,6 +52,7 @@ struct AboutNovaView: View {
 				_credit(name: "NovaDev404", desc: "NexStore Developer", github: "NovaDev404")
 				_credit(name: "Claration", desc: "Feather Developer", github: "claration")
 				_credit(name: "Nyasami", desc: "Ksign Developer", github: "nyasami")
+				_credit(name: "Stossy11", desc: "StosSign (Original AltSign by Riley Testut)", github: "Stossy11")
 			}
 			
 			NBSection("Special thanks") {

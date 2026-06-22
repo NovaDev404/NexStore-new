@@ -31,8 +31,9 @@ Go to [Releases](https://github.com/NovaDev404/NexStore-new/releases) and downlo
 </a>
 
 ## Credits
-- Ksign by [Nyasami](https://github.com/Nyasami/Ksign)  
-- Feather by [Claration](https://github.com/claration/Feather)  
+- [Ksign](https://github.com/Nyasami/Ksign) by Nyasami
+- [Feather](https://github.com/claration/Feather) by Claration
+- [StosSign](https://github.com/Stossy11/StosSign) by Stossy11 (Original [AltSign](https://github.com/rileytestut/AltSign) by Riley Testut)  
 
 ## Disclaimer
 
