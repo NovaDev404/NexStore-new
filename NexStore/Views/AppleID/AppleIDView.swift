@@ -64,33 +64,12 @@ class AppleIDManager: ObservableObject {
     }
     
     func fetchAnisetteData(from server: AnisetteServer) async throws -> AnisetteData {
-        guard let url = URL(string: "\(server.address)/v1/anisette") else {
+        guard let url = URL(string: server.address) else {
             throw NSError(domain: "AnisetteError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid server URL"])
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        // Dynamic system info helper
-        let device = UIDevice.current
-        var systemInfo = utsname()
-        uname(&systemInfo)
-        let machineMirror = Mirror(reflecting: systemInfo.machine)
-        let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8, value != 0 else { return identifier }
-            return identifier + String(UnicodeScalar(UInt8(value)))
-        }
-        
-        let body: [String: Any] = [
-            "device": identifier,
-            "os": device.systemName,
-            "osVersion": device.systemVersion,
-            "model": device.model,
-            "protocolVersion": "A1234"
-        ]
-        
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        request.httpMethod = "GET"
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
@@ -101,16 +80,20 @@ class AppleIDManager: ObservableObject {
         
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
         
-        guard let machineID = json?["machineID"] as? String,
-              let oneTimePassword = json?["oneTimePassword"] as? String,
-              let localUserID = json?["localUserID"] as? String,
-              let routingInfoString = json?["routingInfo"] as? String,
+        guard let oneTimePassword = json?["X-Apple-I-MD"] as? String,
+              let machineID = json?["X-Apple-I-MD-M"] as? String,
+              let localUserID = json?["X-Apple-I-MD-LU"] as? String,
+              let routingInfoString = json?["X-Apple-I-MD-RINFO"] as? String,
               let routingInfo = UInt64(routingInfoString),
-              let deviceUniqueIdentifier = json?["deviceUniqueIdentifier"] as? String,
-              let deviceSerialNumber = json?["deviceSerialNumber"] as? String,
-              let deviceDescription = json?["deviceDescription"] as? String else {
+              let deviceUniqueIdentifier = json?["X-Mme-Device-Id"] as? String,
+              let deviceSerialNumber = json?["X-Apple-I-SRL-NO"] as? String,
+              let deviceDescription = json?["X-MMe-Client-Info"] as? String,
+              let clientTimeString = json?["X-Apple-I-Client-Time"] as? String else {
             throw NSError(domain: "AnisetteError", code: -3, userInfo: [NSLocalizedDescriptionKey: "Invalid anisette data response"])
         }
+        
+        let dateFormatter = ISO8601DateFormatter()
+        let clientTime = dateFormatter.date(from: clientTimeString) ?? Date()
         
         return AnisetteData(
             machineID: machineID,
@@ -120,9 +103,9 @@ class AppleIDManager: ObservableObject {
             deviceUniqueIdentifier: deviceUniqueIdentifier,
             deviceSerialNumber: deviceSerialNumber,
             deviceDescription: deviceDescription,
-            date: Date(),
-            locale: Locale.current,
-            timeZone: TimeZone.current
+            date: clientTime,
+            locale: Locale(identifier: json?["X-Apple-Locale"] as? String ?? "en_US"),
+            timeZone: TimeZone(abbreviation: json?["X-Apple-I-TimeZone"] as? String ?? "UTC") ?? TimeZone.current
         )
     }
     
