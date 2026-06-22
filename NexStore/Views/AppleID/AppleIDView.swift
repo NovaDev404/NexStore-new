@@ -7,6 +7,7 @@
 
 import SwiftUI
 import NimbleViews
+import UIKit
 import StosSign
 import StosSign_API
 import StosSign_Auth
@@ -71,11 +72,21 @@ class AppleIDManager: ObservableObject {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        // Dynamic system info helper
+        let device = UIDevice.current
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        
         let body: [String: Any] = [
-            "device": "iPhone14,3",
-            "os": "iOS",
-            "osVersion": "16.5",
-            "model": "iPhone",
+            "device": identifier,
+            "os": device.systemName,
+            "osVersion": device.systemVersion,
+            "model": device.model,
             "protocolVersion": "A1234"
         ]
         
