@@ -11,6 +11,16 @@ import StosSign
 import StosSign_API
 import StosSign_Auth
 
+struct AnisetteServer: Identifiable, Codable {
+    let id = UUID()
+    let name: String
+    let address: String
+}
+
+struct AnisetteServersResponse: Codable {
+    let servers: [AnisetteServer]
+}
+
 @MainActor
 class AppleIDManager: ObservableObject {
     @Published var account: Account?
@@ -21,29 +31,121 @@ class AppleIDManager: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var isSignedIn = false
+    @Published var requiresTwoFactor = false
+    @Published var twoFactorMethod: String = ""
+    @Published var anisetteServers: [AnisetteServer] = []
+    @Published var selectedAnisetteServer: AnisetteServer?
     
     private let api = AppleAPI.shared
+    private var currentVerificationHandler: ((String?) -> Void)?
     
-    func signIn(appleID: String, password: String, anisetteData: AnisetteData) async {
+    init() {
+        Task {
+            await fetchAnisetteServers()
+        }
+    }
+    
+    func fetchAnisetteServers() async {
+        do {
+            let url = URL(string: "https://servers.sidestore.io/servers.json")!
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let response = try JSONDecoder().decode(AnisetteServersResponse.self, from: data)
+            self.anisetteServers = response.servers
+            if let firstServer = response.servers.first {
+                self.selectedAnisetteServer = firstServer
+            }
+        } catch {
+            // Fallback to default server
+            let fallbackServer = AnisetteServer(name: "SideStore", address: "https://ani.sidestore.io")
+            self.anisetteServers = [fallbackServer]
+            self.selectedAnisetteServer = fallbackServer
+        }
+    }
+    
+    func fetchAnisetteData(from server: AnisetteServer) async throws -> AnisetteData {
+        guard let url = URL(string: "\(server.address)/v1/anisette") else {
+            throw NSError(domain: "AnisetteError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid server URL"])
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body: [String: Any] = [
+            "device": "iPhone14,3",
+            "os": "iOS",
+            "osVersion": "16.5",
+            "model": "iPhone",
+            "protocolVersion": "A1234"
+        ]
+        
+        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw NSError(domain: "AnisetteError", code: -2, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch anisette data"])
+        }
+        
+        let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+        
+        guard let machineID = json?["machineID"] as? String,
+              let oneTimePassword = json?["oneTimePassword"] as? String,
+              let localUserID = json?["localUserID"] as? String,
+              let routingInfoString = json?["routingInfo"] as? String,
+              let routingInfo = UInt64(routingInfoString),
+              let deviceUniqueIdentifier = json?["deviceUniqueIdentifier"] as? String,
+              let deviceSerialNumber = json?["deviceSerialNumber"] as? String,
+              let deviceDescription = json?["deviceDescription"] as? String else {
+            throw NSError(domain: "AnisetteError", code: -3, userInfo: [NSLocalizedDescriptionKey: "Invalid anisette data response"])
+        }
+        
+        return AnisetteData(
+            machineID: machineID,
+            oneTimePassword: oneTimePassword,
+            localUserID: localUserID,
+            routingInfo: routingInfo,
+            deviceUniqueIdentifier: deviceUniqueIdentifier,
+            deviceSerialNumber: deviceSerialNumber,
+            deviceDescription: deviceDescription,
+            date: Date(),
+            locale: Locale.current,
+            timeZone: TimeZone.current
+        )
+    }
+    
+    func signIn(appleID: String, password: String) async {
         isLoading = true
         errorMessage = nil
+        requiresTwoFactor = false
+        
+        guard let server = selectedAnisetteServer else {
+            errorMessage = "No anisette server selected"
+            isLoading = false
+            return
+        }
         
         do {
+            let anisetteData = try await fetchAnisetteData(from: server)
+            
             let (account, session) = try await api.authenticate(
                 appleID: appleID,
                 password: password,
                 anisetteData: anisetteData
             ) { verificationHandler in
-                // This will be called when 2FA is required
                 Task { @MainActor in
-                    // For now, we'll need to implement a UI to handle 2FA
-                    // This is a placeholder - we'll need to add proper 2FA UI
+                    self.requiresTwoFactor = true
+                    self.twoFactorMethod = "SMS"
+                    self.currentVerificationHandler = verificationHandler
                 }
             }
             
             self.account = account
             self.session = session
             self.isSignedIn = true
+            self.requiresTwoFactor = false
+            self.currentVerificationHandler = nil
             
             // Fetch teams
             self.teams = try await api.fetchTeamsForAccount(account: account, session: session)
@@ -57,7 +159,21 @@ class AppleIDManager: ObservableObject {
         } catch {
             self.errorMessage = error.localizedDescription
             self.isSignedIn = false
+            self.requiresTwoFactor = false
+            self.currentVerificationHandler = nil
         }
+        
+        isLoading = false
+    }
+    
+    func submitTwoFactorCode(_ code: String) async {
+        isLoading = true
+        errorMessage = nil
+        
+        currentVerificationHandler?(code)
+        
+        // Wait a bit for authentication to complete
+        try? await Task.sleep(nanoseconds: 2_000_000_000)
         
         isLoading = false
     }
@@ -139,11 +255,15 @@ struct AppleIDView: View {
     @StateObject private var manager = AppleIDManager()
     @State private var appleID = ""
     @State private var password = ""
+    @State private var twoFactorCode = ""
     @State private var showingSignIn = true
+    @State private var showingTwoFactor = false
     
     var body: some View {
         NBNavigationView(.localized("Apple ID")) {
-            if showingSignIn || !manager.isSignedIn {
+            if showingTwoFactor {
+                twoFactorView
+            } else if showingSignIn || !manager.isSignedIn {
                 signInView
             } else {
                 accountView
@@ -154,6 +274,19 @@ struct AppleIDView: View {
     
     private var signInView: some View {
         Form {
+            Section {
+                Picker("Anisette Server", selection: $manager.selectedAnisetteServer) {
+                    ForEach(manager.anisetteServers) { server in
+                        Text(server.name).tag(server as AnisetteServer?)
+                    }
+                }
+                .pickerStyle(.menu)
+            } header: {
+                Text("Anisette Server")
+            } footer: {
+                Text("Select an anisette server to authenticate with Apple.")
+            }
+            
             Section {
                 TextField("Apple ID", text: $appleID)
                     .textContentType(.emailAddress)
@@ -179,24 +312,11 @@ struct AppleIDView: View {
             Section {
                 Button(action: {
                     Task {
-                        // For now, we need anisette data
-                        // This is a placeholder - we'll need to implement proper anisette handling
-                        let anisetteData = AnisetteData(
-                            machineID: "placeholder",
-                            oneTimePassword: "placeholder",
-                            localUserID: "placeholder",
-                            routingInfo: 0,
-                            deviceUniqueIdentifier: "placeholder",
-                            deviceSerialNumber: "placeholder",
-                            deviceDescription: "placeholder",
-                            date: Date(),
-                            locale: Locale.current,
-                            timeZone: TimeZone.current
-                        )
+                        await manager.signIn(appleID: appleID, password: password)
                         
-                        await manager.signIn(appleID: appleID, password: password, anisetteData: anisetteData)
-                        
-                        if manager.isSignedIn {
+                        if manager.requiresTwoFactor {
+                            showingTwoFactor = true
+                        } else if manager.isSignedIn {
                             showingSignIn = false
                         }
                     }
@@ -209,10 +329,58 @@ struct AppleIDView: View {
                         Text("Sign In")
                     }
                 }
-                .disabled(manager.isLoading || appleID.isEmpty || password.isEmpty)
+                .disabled(manager.isLoading || appleID.isEmpty || password.isEmpty || manager.selectedAnisetteServer == nil)
             }
         }
         .navigationTitle("Apple ID")
+    }
+    
+    private var twoFactorView: some View {
+        Form {
+            Section {
+                Text("Enter the \(manager.twoFactorMethod) verification code sent to your device.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            
+            Section {
+                TextField("Verification Code", text: $twoFactorCode)
+                    .textContentType(.oneTimeCode)
+                    .keyboardType(.numberPad)
+            }
+            
+            if let errorMessage = manager.errorMessage {
+                Section {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .font(.caption)
+                }
+            }
+            
+            Section {
+                Button(action: {
+                    Task {
+                        await manager.submitTwoFactorCode(twoFactorCode)
+                        
+                        if manager.isSignedIn {
+                            showingTwoFactor = false
+                            showingSignIn = false
+                            twoFactorCode = ""
+                        }
+                    }
+                }) {
+                    HStack {
+                        if manager.isLoading {
+                            ProgressView()
+                                .scaleEffect(0.8)
+                        }
+                        Text("Verify")
+                    }
+                }
+                .disabled(manager.isLoading || twoFactorCode.isEmpty)
+            }
+        }
+        .navigationTitle("Two-Factor Authentication")
     }
     
     private var accountView: some View {
