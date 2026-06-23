@@ -12,7 +12,7 @@ import NimbleViews
 
 // MARK: - View
 struct SourcesView: View {
-	@ObservedObject var viewModel = SourcesViewModel.shared
+	@StateObject var viewModel = SourcesViewModel.shared
 	@State private var _isAddingPresenting = false
 	@State private var _addingSourceLoading = false
 	@State private var _searchText = ""

@@ -13,7 +13,7 @@ import NukeUI
 struct ExtendedTabbarView: View {
 	@Environment(\.horizontalSizeClass) var horizontalSizeClass
 	@AppStorage("NexStore.tabCustomization") var customization = TabViewCustomization()
-	@ObservedObject var viewModel = SourcesViewModel.shared
+	@StateObject var viewModel = SourcesViewModel.shared
 	
 	@State private var _isAddingPresenting = false
 	@State private var selectedTab: TabEnum = .appstore

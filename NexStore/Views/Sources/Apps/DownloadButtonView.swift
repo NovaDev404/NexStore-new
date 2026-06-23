@@ -12,7 +12,7 @@ import NimbleViews
 
 struct DownloadButtonView: View {
 	let app: ASRepository.App
-	@ObservedObject private var downloadManager = DownloadManager.shared
+	@StateObject private var downloadManager = DownloadManager.shared
 
 	@State private var downloadProgress: Double = 0
 	@State private var cancellable: AnyCancellable?

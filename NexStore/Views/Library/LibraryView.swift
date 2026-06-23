@@ -11,7 +11,7 @@ import NimbleViews
 
 // MARK: - View
 struct LibraryView: View {
-	@ObservedObject var downloadManager = DownloadManager.shared
+	@StateObject var downloadManager = DownloadManager.shared
 	
 	@State private var _selectedInfoAppPresenting: AnyApp?
 	@State private var _selectedSigningAppPresenting: AnyApp?
