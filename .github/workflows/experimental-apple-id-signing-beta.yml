@@ -1,0 +1,55 @@
+name: Experimental Apple ID Signing Beta Build
+
+on:
+  push:
+    branches: [ "experimental-apple-id-signing" ]
+    paths-ignore:
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Experimental Apple ID Signing Beta
+    runs-on: macos-26
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Build
+        run: |
+          make
+
+      - name: Update Experimental Apple ID Signing Beta Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          LATEST_OFFICIAL_TAG=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "")
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "## Commit: \`$COMMIT_MSG\` (${{ github.sha }})" >> release_notes.md
+          echo "### New in this build (Compared to $LATEST_OFFICIAL_TAG):" >> release_notes.md
+            
+          CHANGES=$(git log --pretty=format:"* %s (%h)" ${LATEST_OFFICIAL_TAG}..HEAD)
+            
+          if [ -z "$CHANGES" ]; then
+            echo "* No code changes since $LATEST_OFFICIAL_TAG" >> release_notes.md
+          else
+            echo "$CHANGES" >> release_notes.md
+          fi
+          
+          echo "### Commit SHA: ${{ github.sha }}" >> release_notes.md
+          
+          cat release_notes.md
+
+          gh release delete experimental-apple-id-signing-beta --cleanup-tag -y || true
+          
+          gh release create experimental-apple-id-signing-beta "packages/NexStore.ipa" \
+            --title "Latest Experimental Apple ID Signing Build" \
+            --notes "$(cat release_notes.md)" \
+            --prerelease \
+            --target ${{ github.sha }}
