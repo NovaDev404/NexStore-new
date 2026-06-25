@@ -61,8 +61,8 @@ class AccentColorManager: ObservableObject {
     /// Updates the global app tint color
     func updateGlobalTintColor() {
         DispatchQueue.main.async {
-            UIApplication.shared.connectedScenes
-                .compactMap { $0 as? UIWindowScene }
+            guard let scenes = UIApplication.shared.connectedScenes as? Set<UIWindowScene> else { return }
+            scenes
                 .flatMap { $0.windows }
                 .forEach { window in
                     window.tintColor = self.currentUIColor

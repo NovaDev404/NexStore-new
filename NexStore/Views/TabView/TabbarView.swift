@@ -11,6 +11,7 @@ import NukeUI
 struct TabbarView: View {
 	@State private var selectedTab: TabEnum = .appstore
 	@Environment(\.horizontalSizeClass) var horizontalSizeClass
+	@State private var safeAreaBottom: CGFloat = 0
 
 	var body: some View {
 		ZStack(alignment: .bottom) {
@@ -32,14 +33,24 @@ struct TabbarView: View {
 					.padding(.bottom, safeAreaBottom == 0 ? 20 : safeAreaBottom)
 			}
 		}
+		.onAppear {
+			updateSafeAreaBottom()
+		}
+		.onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+			updateSafeAreaBottom()
+		}
+		.onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+			updateSafeAreaBottom()
+		}
 	}
 	
-	private var safeAreaBottom: CGFloat {
-		if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-		   let window = windowScene.windows.first {
-			return window.safeAreaInsets.bottom
+	private func updateSafeAreaBottom() {
+		DispatchQueue.main.async {
+			if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+			   let window = windowScene.windows.first {
+				self.safeAreaBottom = window.safeAreaInsets.bottom
+			}
 		}
-		return 0
 	}
 }
 
