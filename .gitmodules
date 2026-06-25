@@ -8,3 +8,4 @@
 [submodule "StosSign"]
 	path = StosSign
 	url = https://github.com/NovaDev404/StosSign
+	branch = main
