@@ -13,6 +13,8 @@ import StosSign_API
 import StosSign_Auth
 import StosSign_Certificate
 
+typealias AppleIDCertificate = StosSign_Certificate.Certificate
+
 struct AnisetteServer: Identifiable, Codable, Hashable {
     let id = UUID()
     let name: String
@@ -39,7 +41,7 @@ class AppleIDManager: ObservableObject {
     @Published var session: AppleAPISession?
     @Published var teams: [Team] = []
     @Published var appIDs: [AppID] = []
-    @Published var certificates: [Certificate] = []
+    @Published var certificates: [AppleIDCertificate] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var isSignedIn = false
@@ -228,7 +230,7 @@ class AppleIDManager: ObservableObject {
         isLoading = false
     }
     
-    func revokeCertificate(_ certificate: Certificate, team: Team) async {
+    func revokeCertificate(_ certificate: AppleIDCertificate, team: Team) async {
         isLoading = true
         errorMessage = nil
         
@@ -502,6 +504,20 @@ struct AppIDsView: View {
     
     var body: some View {
         List {
+            if manager.teams.count > 1 {
+                Section {
+                    Picker("Team", selection: $selectedTeam) {
+                        Text("All Teams").tag(nil as Team?)
+                        ForEach(manager.teams, id: \.identifier) { team in
+                            Text(team.name).tag(team as Team?)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                } header: {
+                    Text("Team")
+                }
+            }
+            
             if manager.appIDs.isEmpty {
                 Section {
                     Text("No App IDs")
@@ -537,16 +553,6 @@ struct AppIDsView: View {
                     }
                 }
             }
-        } header: {
-            if manager.teams.count > 1 {
-                Picker("Team", selection: $selectedTeam) {
-                    Text("All Teams").tag(nil as Team?)
-                    ForEach(manager.teams, id: \.identifier) { team in
-                        Text(team.name).tag(team as Team?)
-                    }
-                }
-                .pickerStyle(.menu)
-            }
         }
         .navigationTitle("App IDs")
         .task {
@@ -569,6 +575,20 @@ struct AppleIDCertificatesView: View {
     
     var body: some View {
         List {
+            if manager.teams.count > 1 {
+                Section {
+                    Picker("Team", selection: $selectedTeam) {
+                        Text("All Teams").tag(nil as Team?)
+                        ForEach(manager.teams, id: \.identifier) { team in
+                            Text(team.name).tag(team as Team?)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                } header: {
+                    Text("Team")
+                }
+            }
+            
             if manager.certificates.isEmpty {
                 Section {
                     Text("No Certificates")
@@ -608,16 +628,6 @@ struct AppleIDCertificatesView: View {
                         }
                     }
                 }
-            }
-        } header: {
-            if manager.teams.count > 1 {
-                Picker("Team", selection: $selectedTeam) {
-                    Text("All Teams").tag(nil as Team?)
-                    ForEach(manager.teams, id: \.identifier) { team in
-                        Text(team.name).tag(team as Team?)
-                    }
-                }
-                .pickerStyle(.menu)
             }
         }
         .navigationTitle("Certificates")
