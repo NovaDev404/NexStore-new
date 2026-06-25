@@ -23,6 +23,9 @@
 		C42CC1AF2F4370F20064A4A2 /* IDeviceSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C42CC1AE2F4370F20064A4A2 /* IDeviceSwift */; };
 		C451296C2E54F0DC00E94CC7 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = C451296B2E54F0DB00E94CC7 /* ZIPFoundation */; };
 		C4CEAE0C2DDF4735007EF880 /* ArArchiveKit in Frameworks */ = {isa = PBXBuildFile; productRef = C4CEAE0B2DDF4735007EF880 /* ArArchiveKit */; };
+		C4CC1B002F4370F40064A4A2 /* StosSign in Frameworks */ = {isa = PBXBuildFile; productRef = C4CC1AFF2F4370F40064A4A2 /* StosSign */; };
+		C4CC1B022F4370F40064A4A2 /* StosSign_API in Frameworks */ = {isa = PBXBuildFile; productRef = C4CC1B012F4370F40064A4A2 /* StosSign_API */; };
+		C4CC1B042F4370F40064A4A2 /* StosSign_Auth in Frameworks */ = {isa = PBXBuildFile; productRef = C4CC1B032F4370F40064A4A2 /* StosSign_Auth */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +98,9 @@
 				3346F83B2DC6C6D100C7D508 /* NukeUI in Frameworks */,
 				336D43982DB7454A00206400 /* MobileCoreServices.framework in Frameworks */,
 				C451296C2E54F0DC00E94CC7 /* ZIPFoundation in Frameworks */,
+				C4CC1B002F4370F40064A4A2 /* StosSign in Frameworks */,
+				C4CC1B022F4370F40064A4A2 /* StosSign_API in Frameworks */,
+				C4CC1B042F4370F40064A4A2 /* StosSign_Auth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +177,9 @@
 				C451296B2E54F0DB00E94CC7 /* ZIPFoundation */,
 				C42CC1AC2F4370F20064A4A2 /* IDevice */,
 				C42CC1AE2F4370F20064A4A2 /* IDeviceSwift */,
+				C4CC1AFF2F4370F40064A4A2 /* StosSign */,
+				C4CC1B012F4370F40064A4A2 /* StosSign_API */,
+				C4CC1B032F4370F40064A4A2 /* StosSign_Auth */,
 			);
 			productName = NexStore;
 			productReference = 3379C1B92DA869A1004372DA /* NexStore.app */;
@@ -807,6 +816,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C4CEAE0A2DDF416B007EF880 /* XCRemoteSwiftPackageReference "ArArchiveKit" */;
 			productName = ArArchiveKit;
+		};
+		C4CC1AFF2F4370F40064A4A2 /* StosSign */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C42CC1AC2F4370F30064A4A3 /* XCLocalSwiftPackageReference "StosSign" */;
+			productName = StosSign;
+		};
+		C4CC1B012F4370F40064A4A2 /* StosSign_API */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C42CC1AC2F4370F30064A4A3 /* XCLocalSwiftPackageReference "StosSign" */;
+			productName = StosSign_API;
+		};
+		C4CC1B032F4370F40064A4A2 /* StosSign_Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C42CC1AC2F4370F30064A4A3 /* XCLocalSwiftPackageReference "StosSign" */;
+			productName = StosSign_Auth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
