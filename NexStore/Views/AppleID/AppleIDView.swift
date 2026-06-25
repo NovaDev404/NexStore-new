@@ -11,11 +11,22 @@ import UIKit
 import StosSign
 import StosSign_API
 import StosSign_Auth
+import StosSign_Certificate
 
-struct AnisetteServer: Identifiable, Codable {
+struct AnisetteServer: Identifiable, Codable, Hashable {
     let id = UUID()
     let name: String
     let address: String
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(name)
+        hasher.combine(address)
+    }
+    
+    static func == (lhs: AnisetteServer, rhs: AnisetteServer) -> Bool {
+        return lhs.id == rhs.id && lhs.name == rhs.name && lhs.address == rhs.address
+    }
 }
 
 struct AnisetteServersResponse: Codable {
@@ -427,7 +438,7 @@ struct AppleIDView: View {
                         }
                     }
                     
-                    NavigationLink(destination: CertificatesView(manager: manager)) {
+                    NavigationLink(destination: AppleIDCertificatesView(manager: manager)) {
                         HStack {
                             Image(systemName: "certificate")
                             Text("Certificates")
@@ -552,7 +563,7 @@ struct AppIDsView: View {
     }()
 }
 
-struct CertificatesView: View {
+struct AppleIDCertificatesView: View {
     @ObservedObject var manager: AppleIDManager
     @State private var selectedTeam: Team?
     

@@ -26,6 +26,7 @@
 		C4CC1B002F4370F40064A4A2 /* StosSign in Frameworks */ = {isa = PBXBuildFile; productRef = C4CC1AFF2F4370F40064A4A2 /* StosSign */; };
 		C4CC1B022F4370F40064A4A2 /* StosSign_API in Frameworks */ = {isa = PBXBuildFile; productRef = C4CC1B012F4370F40064A4A2 /* StosSign_API */; };
 		C4CC1B042F4370F40064A4A2 /* StosSign_Auth in Frameworks */ = {isa = PBXBuildFile; productRef = C4CC1B032F4370F40064A4A2 /* StosSign_Auth */; };
+		C4CC1B062F4370F50064A4A4 /* StosSign_Certificate in Frameworks */ = {isa = PBXBuildFile; productRef = C4CC1B052F4370F50064A4A4 /* StosSign_Certificate */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 				C4CC1B002F4370F40064A4A2 /* StosSign in Frameworks */,
 				C4CC1B022F4370F40064A4A2 /* StosSign_API in Frameworks */,
 				C4CC1B042F4370F40064A4A2 /* StosSign_Auth in Frameworks */,
+				C4CC1B062F4370F50064A4A4 /* StosSign_Certificate in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +182,7 @@
 				C4CC1AFF2F4370F40064A4A2 /* StosSign */,
 				C4CC1B012F4370F40064A4A2 /* StosSign_API */,
 				C4CC1B032F4370F40064A4A2 /* StosSign_Auth */,
+				C4CC1B052F4370F50064A4A4 /* StosSign_Certificate */,
 			);
 			productName = NexStore;
 			productReference = 3379C1B92DA869A1004372DA /* NexStore.app */;
@@ -831,6 +834,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C42CC1AC2F4370F30064A4A3 /* XCLocalSwiftPackageReference "StosSign" */;
 			productName = StosSign_Auth;
+		};
+		C4CC1B052F4370F50064A4A4 /* StosSign_Certificate */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C42CC1AC2F4370F30064A4A3 /* XCLocalSwiftPackageReference "StosSign" */;
+			productName = StosSign_Certificate;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
