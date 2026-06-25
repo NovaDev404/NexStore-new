@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LogsView: View {
-	@ObservedObject var manager: LogsManager
+	@StateObject var manager: LogsManager
 
 	private var _lastId: LogEntry.ID? { manager.entries.last?.id }
 

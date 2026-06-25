@@ -13,7 +13,7 @@ import NukeUI
 
 // MARK: - SourceAppsDetailView
 struct SourceAppsDetailView: View {
-	@ObservedObject var downloadManager = DownloadManager.shared
+	@StateObject var downloadManager = DownloadManager.shared
 	@State private var _downloadProgress: Double = 0
 	@State var cancellable: AnyCancellable? // Combine
 	@State private var _isScreenshotPreviewPresented: Bool = false
@@ -230,7 +230,7 @@ extension SourceAppsDetailView {
 	@ViewBuilder
 	private func _header() -> some View {
 		ZStack {
-			if let iconURL = source.currentIconURL {
+			if let iconURL = app.iconURL {
 				LazyImage(url: iconURL) { state in
 					if let image = state.image {
 						image.resizable()

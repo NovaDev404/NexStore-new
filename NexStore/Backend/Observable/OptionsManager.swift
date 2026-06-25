@@ -16,9 +16,16 @@ class OptionsManager: ObservableObject {
 	private let _key = "signing_options"
 	
 	init() {
-		if let data = UserDefaults.standard.data(forKey: _key),
-		   let savedOptions = try? JSONDecoder().decode(Options.self, from: data) {
-			self.options = savedOptions
+		if let data = UserDefaults.standard.data(forKey: _key) {
+			do {
+				let savedOptions = try JSONDecoder().decode(Options.self, from: data)
+				self.options = savedOptions
+			} catch {
+				print("Failed to parse signing options: \(error.localizedDescription)")
+				UserDefaults.standard.removeObject(forKey: _key)
+				self.options = Options.defaultOptions
+				self.saveOptions()
+			}
 		} else {
 			self.options = Options.defaultOptions
 			self.saveOptions()

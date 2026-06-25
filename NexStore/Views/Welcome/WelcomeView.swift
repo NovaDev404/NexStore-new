@@ -69,15 +69,6 @@ struct WelcomeView: View {
                     VStack(spacing: 30) {
                         Spacer()
                         
-                        // Icon
-                        if slide.isIconSelectionSlide {
-                            _iconSelectionContent
-                        } else {
-                            Image(systemName: slide.iconName)
-                                .font(.system(size: 80))
-                                .foregroundColor(.accentColor)
-                        }
-                        
                         // Title and subtitle
                         VStack(spacing: 12) {
                             Text(slide.title)
@@ -90,6 +81,15 @@ struct WelcomeView: View {
                                 .foregroundColor(.secondary)
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 40)
+                        }
+                        
+                        // Icon
+                        if slide.isIconSelectionSlide {
+                            _iconSelectionContent
+                        } else {
+                            Image(systemName: slide.iconName)
+                                .font(.system(size: 80))
+                                .foregroundColor(.accentColor)
                         }
                         
                         Spacer()

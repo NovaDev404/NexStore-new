@@ -18,13 +18,12 @@ struct CertificatesInfoEntitlementCellView: View {
 		if let dict = value as? [String: Any] {
 			_makeDisclosureGroup(items: dict.map { ($0.key, $0.value) }.sorted { $0.0 < $1.0 })
 		} else if let array = value as? [Any] {
-			_makeDisclosureGroup(items: array.enumerated().map { ("\($0)", $1) })
+			_makeDisclosureGroup(items: array.map { ("", $0) })
 		} else {
 			HStack {
 				Text(key)
 				Spacer()
-				Text(_formatted(value))
-					.foregroundStyle(.secondary)
+				_formatted(value)
 			}
 		}
 	}
@@ -39,12 +38,20 @@ struct CertificatesInfoEntitlementCellView: View {
 		}
 	}
 	
-	private func _formatted(_ value: Any) -> String {
+	private func _formatted(_ value: Any) -> some View {
 		switch value {
-		case let bool as Bool: return bool ? "✓" : "✗"
-		case let number as NSNumber: return number.stringValue
-		case let string as String: return string
-		default: return String(describing: value)
+		case let bool as Bool:
+			return AnyView(
+				Image(systemName: "circle.fill")
+					.foregroundColor(bool ? .green : .red)
+					.font(.caption)
+			)
+		case let number as NSNumber:
+			return AnyView(Text(number.stringValue).foregroundStyle(.secondary))
+		case let string as String:
+			return AnyView(Text(string).foregroundStyle(.secondary))
+		default:
+			return AnyView(Text(String(describing: value)).foregroundStyle(.secondary))
 		}
 	}
 }

@@ -1,29 +1,17 @@
 //
-//  TabbarController.swift
-//  feather
+//  TabbarView.swift
+//  Feather
 //
-//  Created by samara on 5/17/24.
-//  Copyright (c) 2024 Samara M (khcrysalis)
+//  Created by samara on 11.04.2025.
 //
 
 import SwiftUI
 import NukeUI
 
-@available(iOS 18, *)
-struct ExtendedTabbarView: View {
-	@Environment(\.horizontalSizeClass) var horizontalSizeClass
-	@AppStorage("NexStore.tabCustomization") var customization = TabViewCustomization()
-	@StateObject var viewModel = SourcesViewModel.shared
-	
-	@State private var _isAddingPresenting = false
+struct TabbarView: View {
 	@State private var selectedTab: TabEnum = .appstore
-	
-	@FetchRequest(
-		entity: AltSource.entity(),
-		sortDescriptors: [NSSortDescriptor(keyPath: \AltSource.name, ascending: true)],
-		animation: .snappy
-	) private var _sources: FetchedResults<AltSource>
-		
+	@Environment(\.horizontalSizeClass) var horizontalSizeClass
+
 	var body: some View {
 		ZStack(alignment: .bottom) {
 			// Main content
@@ -34,17 +22,16 @@ struct ExtendedTabbarView: View {
 				}
 			}
 			.tabViewStyle(.page(indexDisplayMode: .never))
-			.padding(.bottom, 100) // Space for bottom bar
+			.padding(.bottom, 100)
 			
-			// Liquid glass bottom bar
+			// Custom bottom tab bar
 			VStack {
 				Spacer()
-				LiquidGlassTabBar(selectedTab: $selectedTab, tabs: TabEnum.defaultTabs)
+				CustomTabBar(selectedTab: $selectedTab, tabs: TabEnum.defaultTabs)
 					.padding(.horizontal, 20)
 					.padding(.bottom, safeAreaBottom == 0 ? 20 : safeAreaBottom)
 			}
 		}
-		.tabViewCustomization($customization)
 	}
 	
 	private var safeAreaBottom: CGFloat {
@@ -54,35 +41,9 @@ struct ExtendedTabbarView: View {
 		}
 		return 0
 	}
-	
-	@ViewBuilder
-	private func _icon(_ title: String, iconUrl: URL?) -> some View {
-		Label {
-			Text(title)
-		} icon: {
-			if let iconURL = iconUrl {
-				LazyImage(url: iconURL) { state in
-					if let image = state.image {
-						image
-					} else {
-						standardIcon
-					}
-				}
-				.processors([.resize(width: 14), .circle()])
-			} else {
-				standardIcon
-			}
-		}
-	}
-
-	
-	var standardIcon: some View {
-		Image(systemName: "app.dashed")
-	}
 }
 
-// MARK: - Liquid Glass Tab Bar
-struct LiquidGlassTabBar: View {
+struct CustomTabBar: View {
 	@Binding var selectedTab: TabEnum
 	let tabs: [TabEnum]
 	@State private var tabPositions: [CGFloat] = []
@@ -131,8 +92,6 @@ struct LiquidGlassTabBar: View {
 				.fill(.ultraThinMaterial)
 		)
 		.clipShape(RoundedRectangle(cornerRadius: 24))
-		.shadow(color: .black.opacity(0.15), radius: 20, x: 0, y: 10)
-		.shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
 		.onPreferenceChange(TabPositionKey.self) { positions in
 			self.tabPositions = positions.sorted { $0.key < $1.key }.map { $0.value }
 		}
@@ -152,7 +111,6 @@ struct LiquidGlassTabBar: View {
 	}
 }
 
-// MARK: - Tab Position Key
 struct TabPositionKey: PreferenceKey {
 	static var defaultValue: [Int: CGFloat] = [:]
 	

@@ -43,7 +43,7 @@ enum TabEnum: String, CaseIterable, Hashable {
         case .files: FilesView()
 		case .library: LibraryView()
 		case .settings: SettingsView()
-		case .certificates: NBNavigationView(.localized("Certificates")) { CertificatesView() }
+		case .certificates: CertificatesView()
 		case .appstore: AppstoreView()
 		case .appleid: AppleIDView()
 		}

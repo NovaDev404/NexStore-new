@@ -29,7 +29,7 @@ struct NexStoreApp: App {
                     .transition(.move(edge: .top).combined(with: .opacity))
 				DownloadHeaderView(downloadManager: downloadManager)
 					.transition(.move(edge: .top).combined(with: .opacity))
-				VariedTabbarView()
+				TabbarView()
 					.environment(\.managedObjectContext, storage.context)
 					.onOpenURL(perform: _handleURL)
 					.transition(.move(edge: .top).combined(with: .opacity))

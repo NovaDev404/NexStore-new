@@ -14,8 +14,25 @@ struct CertificatesInfoEntitlementView: View {
 	
 	// MARK: Body
 	var body: some View {
+		let booleanKeys = entitlements.keys.filter { entitlements[$0]?.value is Bool }.sorted()
+		let otherKeys = entitlements.keys.filter { !(entitlements[$0]?.value is Bool) }.sorted()
+		
 		NBList(.localized("Entitlements")) {
-			ForEach(entitlements.keys.sorted(), id: \.self) { key in
+			ForEach(booleanKeys, id: \.self) { key in
+				if let value = entitlements[key]?.value {
+					CertificatesInfoEntitlementCellView(key: key, value: value)
+				}
+			}
+			
+			if !otherKeys.isEmpty && !booleanKeys.isEmpty {
+				Section {
+					EmptyView()
+				} header: {
+					EmptyView()
+				}
+			}
+			
+			ForEach(otherKeys, id: \.self) { key in
 				if let value = entitlements[key]?.value {
 					CertificatesInfoEntitlementCellView(key: key, value: value)
 				}
