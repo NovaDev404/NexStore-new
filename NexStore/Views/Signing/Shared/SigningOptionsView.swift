@@ -46,15 +46,13 @@ struct SigningOptionsView: View {
                 _picker(.localized("Appearance"),
                         systemImage: "paintpalette",
                         selection: $options.appAppearance,
-                        values: Options.appAppearanceValues,
-                        id: \.description
+                        values: Options.appAppearanceValues
                 )
-                
+
                 _picker(.localized("Minimum Requirement"),
                         systemImage: "ruler",
                         selection: $options.minimumAppRequirement,
-                        values: Options.appMinimumAppRequirementValues,
-                        id: \.description
+                        values: Options.appMinimumAppRequirementValues
                 )
             }
             Section {
@@ -173,16 +171,16 @@ struct SigningOptionsView: View {
     }
     
     @ViewBuilder
-    private func _picker<SelectionValue, T>(
+    private func _picker<SelectionValue: Hashable, T>(
         _ title: String,
         systemImage: String,
         selection: Binding<SelectionValue>,
-        values: [T],
-        id: KeyPath<T, SelectionValue>
-    ) -> some View where SelectionValue: Hashable {
+        values: [T]
+    ) -> some View where T: Equatable {
         Picker(selection: selection) {
-            ForEach(values, id: id) { value in
+            ForEach(Array(values.enumerated()), id: \.offset) { _, value in
                 Text(String(describing: value))
+                    .tag(value as? SelectionValue)
             }
         } label: {
             Label(title, systemImage: systemImage)

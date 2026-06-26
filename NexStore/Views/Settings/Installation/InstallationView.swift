@@ -23,7 +23,7 @@ struct InstallationView: View {
         NBList(.localized("Installation")) {
             Section {
                 Picker(.localized("Installation Type"), systemImage: "arrow.down.app", selection: $_installationMethod) {
-                    ForEach(_installationMethods.indices, id: \.description) { index in
+                    ForEach(_installationMethods.indices, id: \.self) { index in
                         Text(_installationMethods[index]).tag(index)
                     }
                 }
