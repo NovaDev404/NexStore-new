@@ -96,7 +96,7 @@ struct SourcesView: View {
 				await viewModel.fetchSources(_sources, refresh: true)
 			}
 		}
-		.task(id: Array(_sources)) {
+		.task(id: _sources.count) {
 			await viewModel.fetchSources(_sources)
 		}
 	}

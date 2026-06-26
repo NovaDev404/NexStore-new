@@ -179,7 +179,9 @@ struct SourceAppsView: View {
     struct SourceAppRoute: Identifiable, Hashable {
         let source: ASRepository
         let app: ASRepository.App
-        let id: String = UUID().uuidString
+        var id: String {
+            "\(source.name ?? "unknown")_\(app.name ?? "unknown")_\(app.currentVersion ?? "unknown")"
+        }
     }
 }
 
@@ -188,7 +190,7 @@ extension SourceAppsView {
     @ViewBuilder
     private func _sortActions() -> some View {
         Section(.localized("Filter by")) {
-            ForEach(SortOption.allCases, id: \.displayName) { opt in
+            ForEach(SortOption.allCases, id: \.self) { opt in
                 _sortButton(for: opt)
             }
         }

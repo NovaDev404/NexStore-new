@@ -22,7 +22,7 @@ struct AppstoreView: View {
 		NavigationStack {
             SourceAppsView(fromAppStore: true, object: Array(_sources), viewModel: _viewModel)
 		}
-		.task(id: Array(_sources)) {
+		.task(id: _sources.count) {
 			await _viewModel.fetchSources(_sources)
 		}
 	}
