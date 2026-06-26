@@ -66,18 +66,18 @@ struct AppearanceView: View {
 			NBSection(.localized("Sources")) {
                 _storePreview()
 				Picker(.localized("Store Cell Appearance"), selection: $_storeCellAppearance) {
-					ForEach(_storeCellAppearanceMethods.indices, id: \.description) { index in
+					ForEach(_storeCellAppearanceMethods.indices, id: \.self) { index in
 						Text(_storeCellAppearanceMethods[index]).tag(index)
 					}
 				}
 				.pickerStyle(.inline)
                 .labelsHidden()
 			}
-			
+
 			NBSection(.localized("Accent Color")) {
 				_accentColorPreview()
 				Picker(.localized("Accent Color"), selection: $_selectedAccentColor) {
-					ForEach(_accentColors.indices, id: \.description) { index in
+					ForEach(_accentColors.indices, id: \.self) { index in
 						HStack {
 							if index == _accentColors.count - 1 {
 								// Rainbow gradient for custom
