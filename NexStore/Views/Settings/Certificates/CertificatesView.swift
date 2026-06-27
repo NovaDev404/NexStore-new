@@ -19,8 +19,7 @@ struct CertificatesView: View {
 	// MARK: Fetch
 	@FetchRequest(
 		entity: CertificatePair.entity(),
-		sortDescriptors: [NSSortDescriptor(keyPath: \CertificatePair.date, ascending: false)],
-		animation: .snappy
+		sortDescriptors: [NSSortDescriptor(keyPath: \CertificatePair.date, ascending: false)]
 	) private var certificates: FetchedResults<CertificatePair>
 	
 	//

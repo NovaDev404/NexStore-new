@@ -14,8 +14,7 @@ struct AppstoreView: View {
 	
 	@FetchRequest(
 		entity: AltSource.entity(),
-		sortDescriptors: [NSSortDescriptor(keyPath: \AltSource.name, ascending: true)],
-		animation: .snappy
+		sortDescriptors: [NSSortDescriptor(keyPath: \AltSource.name, ascending: true)]
 	) private var _sources: FetchedResults<AltSource>
 	
 	var body: some View {

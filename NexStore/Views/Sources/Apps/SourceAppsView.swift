@@ -56,8 +56,7 @@ struct SourceAppsView: View {
     
     @FetchRequest(
         entity: AltSource.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \AltSource.name, ascending: true)],
-        animation: .snappy
+        sortDescriptors: [NSSortDescriptor(keyPath: \AltSource.name, ascending: true)]
     ) private var _allSources: FetchedResults<AltSource>
     
     // MARK: Body
