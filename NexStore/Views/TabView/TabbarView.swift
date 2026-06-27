@@ -13,13 +13,23 @@ struct TabbarView: View {
 	@Environment(\.horizontalSizeClass) var horizontalSizeClass
 
 	var body: some View {
-		TabView(selection: $selectedTab) {
-			ForEach(TabEnum.defaultTabs, id: \.self) { tab in
-				TabEnum.view(for: tab)
-					.tag(tab)
-					.tabItem {
-						Label(tab.title, systemImage: tab.icon)
-					}
+		ZStack(alignment: .bottom) {
+			// Main content
+			TabView(selection: $selectedTab) {
+				ForEach(TabEnum.defaultTabs, id: \.self) { tab in
+					TabEnum.view(for: tab)
+						.tag(tab)
+				}
+			}
+			.tabViewStyle(.page(indexDisplayMode: .never))
+			.padding(.bottom, 100)
+
+			// Custom bottom tab bar
+			VStack {
+				Spacer()
+				CustomTabBar(selectedTab: $selectedTab, tabs: TabEnum.defaultTabs)
+					.padding(.horizontal, 20)
+					.padding(.bottom, 20)
 			}
 		}
 	}

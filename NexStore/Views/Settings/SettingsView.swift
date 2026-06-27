@@ -14,8 +14,7 @@ struct SettingsView: View {
     @AppStorage("showWelcomeSlides") private var showWelcomeSlides: Bool = false
     @FetchRequest(
         entity: CertificatePair.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \CertificatePair.date, ascending: false)],
-        animation: .snappy
+        sortDescriptors: [NSSortDescriptor(keyPath: \CertificatePair.date, ascending: false)]
     ) private var _certificates: FetchedResults<CertificatePair>
     
     private var selectedCertificate: CertificatePair? {
