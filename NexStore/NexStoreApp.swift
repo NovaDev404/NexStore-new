@@ -35,8 +35,6 @@ struct NexStoreApp: App {
 					.transition(.move(edge: .top).combined(with: .opacity))
 			}
 			.ignoresSafeArea()
-			.animation(.smooth, value: downloadManager.manualDownloads.count)
-            .animation(.smooth, value: extractManager.extractItems.count)
 			.onReceive(accentColorManager.objectWillChange) { _ in
 				accentColorManager.updateGlobalTintColor()
 			}

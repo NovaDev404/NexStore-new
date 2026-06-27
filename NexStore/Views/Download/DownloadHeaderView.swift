@@ -35,7 +35,6 @@ struct DownloadHeaderView: View {
 				.transition(.move(edge: .top).combined(with: .opacity))
 			}
 		}
-		.animation(.spring(), value: downloadManager.manualDownloads.count)
 	}
 }
 

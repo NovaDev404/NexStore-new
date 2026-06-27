@@ -33,7 +33,6 @@ struct ExtractHeaderView: View {
 				.transition(.move(edge: .top).combined(with: .opacity))
 			}
 		}
-		.animation(.spring(), value: extractManager.extractItems.count)
 	}
 }
 

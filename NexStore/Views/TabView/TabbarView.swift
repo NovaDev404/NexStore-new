@@ -11,44 +11,15 @@ import NukeUI
 struct TabbarView: View {
 	@State private var selectedTab: TabEnum = .appstore
 	@Environment(\.horizontalSizeClass) var horizontalSizeClass
-	@State private var safeAreaBottom: CGFloat = 0
 
 	var body: some View {
-		ZStack(alignment: .bottom) {
-			// Main content
-			TabView(selection: $selectedTab) {
-				ForEach(TabEnum.defaultTabs, id: \.hashValue) { tab in
-					TabEnum.view(for: tab)
-						.tag(tab)
-				}
-			}
-			.tabViewStyle(.page(indexDisplayMode: .never))
-			.padding(.bottom, 100)
-			
-			// Custom bottom tab bar
-			VStack {
-				Spacer()
-				CustomTabBar(selectedTab: $selectedTab, tabs: TabEnum.defaultTabs)
-					.padding(.horizontal, 20)
-					.padding(.bottom, safeAreaBottom == 0 ? 20 : safeAreaBottom)
-			}
-		}
-		.onAppear {
-			updateSafeAreaBottom()
-		}
-		.onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-			updateSafeAreaBottom()
-		}
-		.onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
-			updateSafeAreaBottom()
-		}
-	}
-	
-	private func updateSafeAreaBottom() {
-		DispatchQueue.main.async {
-			if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-			   let window = windowScene.windows.first {
-				self.safeAreaBottom = window.safeAreaInsets.bottom
+		TabView(selection: $selectedTab) {
+			ForEach(TabEnum.defaultTabs, id: \.self) { tab in
+				TabEnum.view(for: tab)
+					.tag(tab)
+					.tabItem {
+						Label(tab.title, systemImage: tab.icon)
+					}
 			}
 		}
 	}
